@@ -19,44 +19,45 @@ class App extends Component {
     };
   }
 
-  applyPickedLanguage(pickedLanguage, oppositeLangIconId) {
-    this.swapCurrentlyActiveLanguage(oppositeLangIconId);
-    document.documentElement.lang = pickedLanguage;
-    var resumePath =
-      document.documentElement.lang === window.$primaryLanguage
-        ? `res_primaryLanguage.json`
-        : `res_secondaryLanguage.json`;
-    this.loadResumeFromPath(resumePath);
-  }
+  // applyPickedLanguage(pickedLanguage, oppositeLangIconId) {
+  //   this.swapCurrentlyActiveLanguage(oppositeLangIconId);
+  //   document.documentElement.lang = pickedLanguage;
+  //   var resumePath =
+  //     document.documentElement.lang === window.$primaryLanguage
+  //       ? `res_primaryLanguage.json`
+  //       : `res_secondaryLanguage.json`;
+  //   this.loadResumeFromPath(resumePath);
+  // }
 
-  swapCurrentlyActiveLanguage(oppositeLangIconId) {
-    var pickedLangIconId =
-      oppositeLangIconId === window.$primaryLanguageIconId
-        ? window.$secondaryLanguageIconId
-        : window.$primaryLanguageIconId;
-    document
-      .getElementById(oppositeLangIconId)
-      .removeAttribute("filter", "brightness(40%)");
-    document
-      .getElementById(pickedLangIconId)
-      .setAttribute("filter", "brightness(40%)");
-  }
+  // swapCurrentlyActiveLanguage(oppositeLangIconId) {
+  //   var pickedLangIconId =
+  //     oppositeLangIconId === window.$primaryLanguageIconId
+  //       ? window.$secondaryLanguageIconId
+  //       : window.$primaryLanguageIconId;
+  //   document
+  //     .getElementById(oppositeLangIconId)
+  //     .removeAttribute("filter", "brightness(40%)");
+  //   document
+  //     .getElementById(pickedLangIconId)
+  //     .setAttribute("filter", "brightness(40%)");
+  // }
 
-  componentDidMount() {
-    this.loadSharedData();
-    this.applyPickedLanguage(
-      window.$primaryLanguage,
-      window.$secondaryLanguageIconId
-    );
-  }
+  // componentDidMount() {
+  //   this.loadSharedData();
+  //   this.applyPickedLanguage(
+  //     window.$primaryLanguage,
+  //     window.$secondaryLanguageIconId
+  //   );
+  // }
 
-  loadResumeFromPath(path) {
+  loadResumeFromPath() {
     $.ajax({
-      url: path,
+      url: `res_primaryLanguage.json`,
       dataType: "json",
       cache: false,
       success: function (data) {
         this.setState({ resumeData: data });
+        document.title = `${this.state.resumeData.basic_info.name}`;
       }.bind(this),
       error: function (xhr, status, err) {
         alert(err);
@@ -83,7 +84,7 @@ class App extends Component {
     return (
       <div>
         <Header sharedData={this.state.sharedData.basic_info} />
-        <div className="col-md-12 mx-auto text-center language">
+        {/* <div className="col-md-12 mx-auto text-center language">
           <div
             onClick={() =>
               this.applyPickedLanguage(
@@ -116,7 +117,7 @@ class App extends Component {
               id={window.$secondaryLanguageIconId}
             ></span>
           </div>
-        </div>
+        </div> */}
         <About
           resumeBasicInfo={this.state.resumeData.basic_info}
           sharedBasicInfo={this.state.sharedData.basic_info}
